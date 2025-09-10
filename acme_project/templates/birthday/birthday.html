@@ -1,5 +1,43 @@
-{% extends "base.html" %}
-
-{% block content %}
-
-{% endblock %}
+{% extends "base.html" %} 
+{% load django_bootstrap5 %} 
+{% comment %} {% block
+content %}
+<form>
+  {% endcomment %} {% comment %}
+  <table>
+    {{ form }}
+  </table>
+  {% endcomment %} {% comment %}
+  <ul>
+    {{ form.as_ul }}
+  </ul>
+  {% endcomment %} {% comment %} {{ form.as_p }} {% endcomment %} 
+  {% block content %}
+  <div class="card col-4">
+    <div class="card-header">Калькулятор ожидания дня рождения</div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %} 
+        {% bootstrap_form form %} 
+        {% bootstrap_button button_type="submit" content="Отправить" %}
+      </form>
+    </div>
+  </div>
+  {% with data=form.instance %} 
+  {% if form.is_valid %}
+  ID записи в БД: {{ data.id }}
+    <hr>
+  <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
+  <!-- Если до дня рождения 0 дней... -->
+  {% if birthday_countdown == 0 %}
+  <!-- ...выводим поздравление: -->
+  С днём рождения!
+  <!-- Если до дня рождения не ноль дней... -->
+  {% else %}
+  <!-- ...сообщаем, сколько осталось ждать: -->
+  Осталось дней до дня рождения: {{ birthday_countdown }}! 
+  {% endif %} 
+  {% endif %} 
+  {% endwith %} 
+  {% endblock %}
+</form>

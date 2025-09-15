@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-{% load django_bootstrap5 %} 
-{% comment %} {% block
+{% extends "base.html" %} {% load django_bootstrap5 %} {% comment %} {% block
 content %}
 <form>
   {% endcomment %} {% comment %}
@@ -12,55 +10,31 @@ content %}
     {{ form.as_ul }}
   </ul>
   {% endcomment %} {% comment %} {{ form.as_p }} {% endcomment %} 
-  {% block content %}
-  {% with data=form.instance %}
-    {% if '/edit/' in request.path %}
-      <!-- Вместо form.instance подставляем data. -->
-      <h1>Редактировать запись {{ data.pk }}</h1>
-    {% elif "/delete/" in request.path %}
-      <h1>Удалить запись {{ data.pk }}</h1>
-    {% else %}
-      <h1>Создать запись</h1>
+  {% block content %} {% with data=form.instance %} {% if '/edit/' in request.path %}
+  <h1>Редактировать запись {{ data.pk }}</h1>
+  {% elif "/delete/" in request.path %}
+  <h1>Удалить запись {{ data.pk }}</h1>
+  {% else %}
+  <h1>Создать запись</h1>
   {% endif %}
+
   <div class="card col-4">
     <div class="card-header">Калькулятор ожидания дня рождения</div>
-    {% if "/delete/" in request.path %}
-  <div class="card-body">
-    <form method="post">
-      {% csrf_token %}
-      {% if not "/delete/" in request.path %}
-        {% bootstrap_form form %}
-      {% else %}
+
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {% if "/delete/" in request.path %}
         <p>{{ data.first_name }} {{ data.last_name }}</p>
         <p>{{ data.birthday }}</p>
-      {% endif %}
-      {% bootstrap_button button_type="submit" content="Отправить" %}
-    </form>
-  </div>
-  {% else %}
-    <div class="card-body">
-      <form method="post">
-        {% csrf_token %} 
-        {% bootstrap_form form %} 
+        {% else %} {% bootstrap_form form %} {% endif %} 
         {% bootstrap_button button_type="submit" content="Отправить" %}
       </form>
     </div>
   </div>
-  {% if form.is_valid %}
-  ID записи в БД: {{ data.id }}
-    <hr>
+  {% if form.is_valid %} ID записи в БД: {{ data.id }}
+  <hr />
   <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
-  <!-- Если до дня рождения 0 дней... -->
-  {% if birthday_countdown == 0 %}
-  <!-- ...выводим поздравление: -->
-  С днём рождения!
-  <!-- Если до дня рождения не ноль дней... -->
-  {% else %}
-  <!-- ...сообщаем, сколько осталось ждать: -->
-  Осталось дней до дня рождения: {{ birthday_countdown }}! 
-  {% endif %} 
-  {% endif %} 
-  {% endif %}
-  {% endwith %} 
-  {% endblock %}
-</form>
+  {% if birthday_countdown == 0 %} С днём рождения! {% else %} Осталось дней до
+  дня рождения: {{ birthday_countdown }}! {% endif %} {% endif %}
+  {% endwith %} {% endblock %}
+

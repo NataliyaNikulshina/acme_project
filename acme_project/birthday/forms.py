@@ -51,7 +51,7 @@ class BirthdayForm(forms.ModelForm):
         last_name = self.cleaned_data['last_name']
         # Проверяем вхождение сочетания имени и фамилии во множество имён.
         if f'{first_name} {last_name}' in BEATLES:
-            # Отправляем письмо, если кто-то представляется 
+            # Отправляем письмо, если кто-то представляется
             # именем одного из участников Beatles.
             send_mail(
                 subject='Another Beatles member',

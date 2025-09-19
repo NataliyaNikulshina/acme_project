@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'birthday.apps.BirthdayConfig',
     'pages.apps.PagesConfig',
     'django_bootstrap5',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -105,3 +106,5 @@ LOGIN_REDIRECT_URL = 'pages:homepage'
 
 # Указываем адрес строницы логина
 LOGIN_URL = 'login'
+
+AUTH_USER_MODEL = 'user.CustomUser'

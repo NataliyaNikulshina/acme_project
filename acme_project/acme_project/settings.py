@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'django_bootstrap5',
     'user',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -108,3 +109,15 @@ LOGIN_REDIRECT_URL = 'pages:homepage'
 LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'user.CustomUser'
+
+DEBUG = True
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    # Когда проект будет опубликован и станет доступен для пользователей,
+    # в этот список нужно будет добавить и адреса домена, где он будет размещён,
+    # например 'acme.not' и 'www.acme.not'
+]
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

@@ -1,11 +1,13 @@
 # birthday/forms.py
 from django import forms
 
-from .models import Birthday
+# Импортируем модель поздравления.
+from .models import Birthday, Congratulation
 from django.core.exceptions import ValidationError
 
 # Импорт функции для отправки почты.
 from django.core.mail import send_mail
+
 
 # Множество с именами участников Ливерпульской четвёрки.
 BEATLES = {'Джон Леннон', 'Пол Маккартни', 'Джордж Харрисон', 'Ринго Старр'}
@@ -56,7 +58,8 @@ class BirthdayForm(forms.ModelForm):
             # именем одного из участников Beatles.
             send_mail(
                 subject='Another Beatles member',
-                message=f'{first_name} {last_name} пытался опубликовать запись!',
+                message=f'{first_name}'
+                        f'{last_name} пытался опубликовать запись!',
                 from_email='birthday_form@acme.not',
                 recipient_list=['admin@acme.not'],
                 fail_silently=True,
@@ -65,3 +68,10 @@ class BirthdayForm(forms.ModelForm):
                 'Мы тоже любим Битлз,'
                 'но введите, пожалуйста, настоящее имя!'
             )
+
+
+class CongratulationForm(forms.ModelForm):
+
+    class Meta:
+        model = Congratulation
+        fields = ('text',)
